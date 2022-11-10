@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <title>Coffe with a Vue</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <h1>{{ restaurantName }}</h1>
+      <div>
+        <h2 class="description">Description:</h2>
+        <p>
+          Bienvenue dans notre restaurant {{ restaurantName }} ! Nous sommes réputés
+          pour notre kebab en js mais aussi pour la pizza entièrement fait en Angular. Faites vous plaisir
+          dès le matin ou avec un burger de VueJS. Mais attention, vous
+          verrez qu'il est difficile de s'arrêter....
+        </p>
+        <section class="menu">
+          <h2>Menu</h2>
+          <div v-for="food in carte" :key="food.menu" class="menu-item">
+            <img
+              class="menu-food__image"
+              :src="food.image.url"
+              :alt="food.image.alt"
+            />
+            <div class="food-menu">
+              <h3>{{ food.menu }}</h3>
+              <p v-if="food.inStock">En stock</p>
+              <p v-else>En rupture de stock</p>
+              <div v-if="food.inStock == true">
+                <label for="add-food-quantity"
+                  >Quantité : {{ food.quantity }}</label
+                >
+                <input
+                  v-model.number="food.quantity"
+                  id="add-food-quantity"
+                  type="number"
+                />
+                <button @click="addToShoppingCart(food.quantity)">
+                  Ajouter au panier d'achat
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <aside class="shopping-cart">
+          <h2>Panier d'achat: {{ shoppingCart }} articles</h2>
+        </aside>
+
+        <h2>Contactez-nous:</h2>
+        <p>Adresse : {{ adress }}</p>
+        <p>Téléphone : {{ tel }}</p>
+        <p>Email : {{ mail }}</p>
+        <p>Horaires :</p>
+        <ul>
+          <li>Du lundi au vendredi : 09h-12h 14h-17h</li>
+          <li>Samedi : 10h 12h</li>
+          <li>Dimanche : 🧛‍♂️</li>
+        </ul>
+        <div class="cost">
+          <h2>La Carte :</h2>
+          <ul>
+            <li v-for="item in carte">
+              <a v-bind:href="item.url">{{ item.menu }} </a>: {{ item.cost }}€
+            </li>
+          </ul>
+          <p>Total de la commande: {{ prixTotal }}€</p>
+        </div>
+      </div>
+      <footer class="footer">
+        <p>Copyright {{ restaurantName }} 2022</p>
+      </footer>
+    </div>
+
+    <script src="./app.js"></script>
+    
+  </body>
+</html>
